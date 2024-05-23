@@ -4,36 +4,41 @@ using UnityEngine;
 
 public class ArrowController : MonoBehaviour
 {
-    GameObject player;
-    // Start is called before the first frame update
-    void Start()
+    private GameDirector director;
+    private GameObject player;
+    
+    public void SetDirector(GameDirector director)
     {
-        this.player = GameObject.Find("pleyer_0");
+        this.director = director;
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(0, -0.1f, 0);
+        transform.Translate(0,-0.1f,0);
 
-
-        if (transform.position.y < -5.0f)
+        if(transform.position.y < -5.0f)
         {
             Destroy(gameObject);
         }
 
-        //　当たり判定
         Vector2 p1 = transform.position;
         Vector2 p2 = this.player.transform.position;
         Vector2 dir = p1 - p2;
         float d = dir.magnitude;
-        float r1 = 0.5f;  //矢の半径
-        float r2 = 1.0f;  //プレイヤーの半径
+        float r1 = 0.5f;
+        float r2 = 1.0f;
 
-        if (d < r1 + r2)
+        if(d < r1 + r2)
         {
-            // 衝突した場合は矢を消す
+            director.DecreaseHP();
             Destroy(gameObject);
         }
+    
     }
 }
